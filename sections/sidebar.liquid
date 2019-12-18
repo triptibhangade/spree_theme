@@ -10,6 +10,7 @@
     </button>
     <div id="SiteNav" class="site-nav" role="menu">
       <ul class="list--nav">
+        <li> {{ section.settings.text-box-content }} </li>
         {% for link in menus[section.settings.main_menu_link_list].links %}
           {% assign outer_index = forloop.index %}
           {% if link.links != blank %}
@@ -18,7 +19,6 @@
             {% if link.active or link.child_active %}
               {% assign has_active_link = true %}
             {% endif %}
-
             <li class="site-nav--has-submenu site-nav__item">
               <button class="site-nav__link btn--link{% if has_active_link %} site-nav__collapse{% else %} site-nav__expand{% endif %}" aria-expanded="{{ has_active_link }}" aria-controls="Collapsible-{{ forloop.index }}">
                 {{ link.title | escape }}
@@ -224,6 +224,12 @@
         "zh-TW": "選單"
       },
       "default": "main-menu"
+    },
+    {
+      "id": "text-box-content",
+      "type": "richtext",
+      "label": "Add custom text for sidebar heading",
+      "default": "<p>Shop by Brands</p>"
     }
   ]
 }
