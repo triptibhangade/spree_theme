@@ -1,5 +1,5 @@
 {% unless grid_item_width %}
-  {% assign grid_item_width = 'medium-up--one-third small--one-half' %}
+  {% assign grid_item_width = 'medium-up--one-sixth small--one-half' %}
 {% endunless %}
 
 {% unless current_collection == blank %}
@@ -22,7 +22,7 @@
 
 <div class="product grid__item {{ grid_item_width }} slide-up-animation animated" role="listitem">
   {% unless product.featured_image == blank %}
-    <div class="supports-js" style="max-width: {{ 600 | times: product.featured_image.aspect_ratio | round }}px; margin: 0 auto;">
+    <div class="supports-js product-block" style="max-width: {{ 600 | times: product.featured_image.aspect_ratio | round }}px; margin: 0 auto;">
       <a href="{{ product.url | within: collection }}" class="product__image-wrapper product__image-wrapper--loading" style="padding-top:{{ 1 | divided_by: product.featured_image.aspect_ratio | times: 100}}%;" title="{{ product.title | escape }}" data-image-link>
         <img class="product__image lazyload"
              alt="{{ product.featured_image.alt | escape }}"
