@@ -98,14 +98,33 @@
       {% endif %}
     </div>
   </div>
+  
+  {% if customer %}
+    {% assign a = 'view' %}
+  {% endif %}
 
-  <div class="grid__item medium-up--one-fourth small--one-half">
+  <div class="grid__item medium-up--one-fourth small--one-half {{ a }}">
     <div class="top-bar__search">
       <a href="{{ routes.search_url }}" class="medium-up--hide">
         {% include 'icon-search' %}
       </a>
       <form action="{{ routes.search_url }}" method="get" class="search-bar small--hide" role="search">
         {% comment %}<input type="hidden" name="type" value="product">{% endcomment %}
+        {% if shop.customer_accounts_enabled %}
+          {% if customer %}
+            {% if customer.first_name != blank %}
+              {% capture first_name %}<a href="{{ routes.account_url }}">{{ 'My Account' }}</a>{% endcapture %}
+              {{ first_name }}
+            {% else %}
+              <a href="{{ routes.account_url }}">{{ 'layout.customer.account' | t }}</a>
+            {% endif %}
+            <span class="vertical-divider"></span>
+            {{ 'layout.customer.log_out' | t | customer_logout_link }}
+          {% else %}
+            {{ 'layout.customer.log_in' | t | customer_login_link }}
+            
+          {% endif %}
+        {% endif %}
         <select name="taxon" id="taxon" aria-label="Taxon" class="form-control"><option value="">All departments</option>
           <option value="1">Brands</option>
           <option value="2">Brand</option>
@@ -127,27 +146,6 @@
 </header>
 
 <div class="top-bar grid container-menubar">
-
-  {% if shop.customer_accounts_enabled %}
-    <div class="grid__item medium-up--two-fifths small--hide">
-      <span class="customer-links small--hide">
-        {% if customer %}
-          {% if customer.first_name != blank %}
-            {% capture first_name %}<a href="{{ routes.account_url }}">{{ customer.first_name }}</a>{% endcapture %}
-            {{ 'layout.customer.logged_in_as_html' | t: first_name: first_name }}
-          {% else %}
-            <a href="{{ routes.account_url }}">{{ 'layout.customer.account' | t }}</a>
-          {% endif %}
-          <span class="vertical-divider"></span>
-          {{ 'layout.customer.log_out' | t | customer_logout_link }}
-        {% else %}
-          {{ 'layout.customer.log_in' | t | customer_login_link }}
-          <span class="vertical-divider"></span>
-          {{ 'layout.customer.create_account' | t | customer_register_link }}
-        {% endif %}
-      </span>
-    </div>
-  {% endif %}
   <div class="grid__item medium-up--one-fifth small--one-half">
     <div class="home-button">
       <a href="/">Home</a>
