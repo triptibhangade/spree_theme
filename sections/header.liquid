@@ -106,6 +106,10 @@
       </a>
       <form action="{{ routes.search_url }}" method="get" class="search-bar small--hide" role="search">
         {% comment %}<input type="hidden" name="type" value="product">{% endcomment %}
+        <select name="taxon" id="taxon" aria-label="Taxon" class="form-control"><option value="">All departments</option>
+          <option value="1">Brands</option>
+          <option value="2">Brand</option>
+        </select>
         <input type="search" name="q" class="search-bar__input" value="{{ search.terms | escape }}" placeholder="{{ 'general.search.placeholder' | t }}" aria-label="{{ 'general.search.placeholder' | t }}">
         <button type="submit" class="btn-success">
           <span>{{ 'general.search.submit' | t }}</span>
