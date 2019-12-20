@@ -13,7 +13,7 @@
 
   <div class="grid product-single">
 
-    <div class="grid__item medium-up--one-half">
+    <div class="grid__item medium-up--one-half product-img">
       {% for image in product.images %}
         {% capture img_id %}ProductImage-{{ image.id }}{% endcapture %}
         {% capture wrapper_id %}ProductImageWrapper-{{ image.id }}{% endcapture %}
@@ -75,14 +75,16 @@
       {% endif %}
     </div>
 
-    <div class="grid__item medium-up--one-half{% if product.images.size == 0%} medium-up--push-one-half{% endif %}">
+    <div class="grid__item medium-up--one-half product{% if product.images.size == 0%} medium-up--push-one-half{% endif %}">
       <div class="product-single__meta small--text-center">
         <h1 class="product-single__title" itemprop="name">{{ product.title }}</h1>
-        <h6>Description</h6>
-          {% if section.settings.product_description_position == 'below' %}
-            {%- assign position = 'below' -%}
-            {% include 'product-description' %}
-          {% endif %}
+        &nbsp
+          <div class="description">
+            {% if section.settings.product_description_position == 'below' %}
+              {%- assign position = 'below' -%}
+              {% include 'product-description' %}
+            {% endif %}
+          </div>
 
         {% if section.settings.vendor_show %}
           <p class="product-single__vendor" itemprop="brand">{{ product.vendor }}</p>
