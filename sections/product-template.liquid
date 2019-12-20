@@ -78,6 +78,11 @@
     <div class="grid__item medium-up--one-half{% if product.images.size == 0%} medium-up--push-one-half{% endif %}">
       <div class="product-single__meta small--text-center">
         <h1 class="product-single__title" itemprop="name">{{ product.title }}</h1>
+        <h6>Description</h6>
+          {% if section.settings.product_description_position == 'below' %}
+            {%- assign position = 'below' -%}
+            {% include 'product-description' %}
+          {% endif %}
 
         {% if section.settings.vendor_show %}
           <p class="product-single__vendor" itemprop="brand">{{ product.vendor }}</p>
@@ -87,7 +92,9 @@
           <meta itemprop="priceCurrency" content="{{ cart.currency.iso_code }}">
 
           <link itemprop="availability" href="http://schema.org/{% if current_variant.available %}InStock{% else %}OutOfStock{% endif %}">
+          
 
+          <h6>Price</h6>
           <p class="product-single__prices">
             {% if product.compare_at_price_max > product.price %}
               <span id="ComparePriceA11y" class="visually-hidden">{{ 'products.product.sale_price' | t }}</span>
@@ -108,16 +115,6 @@
             {% include 'product-unit-price', variant: current_variant, available: true %}
           </p>
 
-          {%- if shop.taxes_included or shop.shipping_policy.body != blank -%}
-            <div class="product-single__policies rte">
-              {%- if shop.taxes_included -%}
-                {{ 'products.product.include_taxes' | t }}
-              {%- endif -%}
-              {%- if shop.shipping_policy.body != blank -%}
-                {{ 'products.product.shipping_policy_html' | t: link: shop.shipping_policy.url }}
-              {%- endif -%}
-            </div>
-          {%- endif -%}
           {%- assign productClasses = 'product-form' -%}
           {%- if product.has_only_default_variant -%}
             {%- assign productClasses = productClasses | append: ' product-form--default-variant-only' -%}
@@ -147,9 +144,6 @@
               <button type="submit" name="add" id="AddToCart" class="btn product-single__cart-submit{% if section.settings.add_to_cart_width == 'full_width' %} btn--full{% endif %}{% if section.settings.enable_payment_button %} shopify-payment-btn btn--secondary{% endif %}" data-cart-url="{{ routes.cart_url }}">
                 <span id="AddToCartText">{{ 'products.product.add_to_cart' | t }}</span>
               </button>
-              {% if section.settings.enable_payment_button %}
-                {{ form | payment_button }}
-              {% endif %}
             </div>
 
           {% endform %}
@@ -161,18 +155,11 @@
           {% include 'product-description' %}
         {% endif %}
 
-        {% if section.settings.social_sharing_products %}
-          {% include 'social-sharing', share_title: product.title, share_permalink: product.url, share_image: product %}
-        {% endif %}
       </div>
     </div>
 
   </div>
 
-  {% if section.settings.product_description_position == 'below' %}
-    {%- assign position = 'below' -%}
-    {% include 'product-description' %}
-  {% endif %}
 </div>
 
 {% unless product == empty %}
