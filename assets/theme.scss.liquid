@@ -5115,7 +5115,7 @@ button {
     width: 230.33% !important;
 }
 
-a {
+{% comment %} a {
     background-color: transparent;
     padding: 15px;
     padding-top: 15px;
@@ -5151,7 +5151,8 @@ a:hover, a:focus {
     padding-right: 15px;
     padding-bottom: 15px;
     padding-left: 15px;
-}
+    text-decoration: none;
+} {% endcomment %}
 
 .medium-up--two-fifths {
     width: 80%;
@@ -5293,6 +5294,28 @@ div#shopify-section-header {
     width: 90px;
     text-align: center;
     color: black;
+}
+
+button.btn.btn--secondary.update-cart.update {
+    background: #295c90;
+    border: 1px solid #0f253c;
+}
+
+.cart__remove {
+    color: #333;
+    font-size: 20px;
+    position: relative;
+    top: 0px;
+    display: inline-block;
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+}
+
+tfoot {
+    background: #fcf8e3;
 }
 
 {% comment %} -------------------------------------- product show ---------------------------- {% endcomment %}

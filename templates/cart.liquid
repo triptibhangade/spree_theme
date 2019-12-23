@@ -4,13 +4,13 @@
   <div class="grid__item">
     {% if cart.item_count > 0 %}
       <h1 class="h2 visually-hidden">{{ 'cart.general.title' | t }}</h1>
-      <form action="{{ routes.cart_url }}" method="post" novalidate class="cart">
-        <table class="cart-table responsive-table table--no-border">
+            <form action="{{ routes.cart_url }}" method="post" novalidate class="cart">
+        <table class="cart-table responsive-table table--no-border table table-hover">
           <thead class="cart__row cart__header-labels small--hide">
-            <th class="text-left cart__table-cell--image">{{ 'cart.label.product' | t }}</th>
+            <th class="text-left cart__table-cell--image">{{ 'cart.label.item' | t }}</th>
             <th class="text-center cart__table-cell--meta"></th>
             <th class="text-right cart__table-cell--price">{{ 'cart.label.price' | t }}</th>
-            <th class="text-right cart__table-cell--quantity">{{ 'cart.label.quantity' | t }}</th>
+            <th class="text-right cart__table-cell--quantity">{{ 'cart.label.qty' | t }}</th>
             <th class="text-right cart__table-cell--line-price">{{ 'cart.label.total' | t }}</th>
           </thead>
           <tbody>
@@ -50,6 +50,7 @@
                 <td class="cart__table-cell--meta text-center large-up--text-left">
                   <p>
                     <a href="{{ item.url }}">{{ item.product.title }}</a>
+                    <small>{{ item.product.description }}</small>
                     {% unless item.variant.title contains 'Default' %}
                       <br /><small>{{ item.variant.title }}</small>
                     {% endunless %}
@@ -75,10 +76,6 @@
                           {% endunless %}
                       {% endfor %}
                     {% endif %}
-                  </p>
-
-                  <p class="txt--minor">
-                    <a href="{{ routes.cart_change_url }}?line={{ forloop.index }}&amp;quantity=0" class="cart__remove">{{ 'cart.general.remove' | t }}</a>
                   </p>
                 </td>
                 <td class="cart__table-cell--price medium-up--text-right" data-label="{{ 'cart.label.price' | t }}">
@@ -117,18 +114,32 @@
                     {{ item.original_line_price | money }}
                   {%- endif -%}
                 </td>
+                <td>
+                
+                <span class="visually-hidden">{{ 'products.product.sale_price' | t }}</span>
+                  <p class="txt--minor">
+                    <a href="{{ routes.cart_change_url }}?line={{ forloop.index }}&amp;quantity=0" class="cart__remove"><span class="glyphicon glyphicon-minus-sign"></span></a>
+                  </p>
+                </td>
               </tr>
             {% endfor %}
           </tbody>
+          <tfoot>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td>
+                <span class="cart__subtotal-title h3">{{ 'cart.general.total' | t }}</span>
+              </td>
+              <td colspan="2">
+                <span class="cart__subtotal h3">{{ cart.total_price | money }}</span>
+              </td>
+            </tr>
+          </tfoot>
         </table>
-
         <footer class="cart__footer">
           <div class="grid">
-            <div class="grid__item large-up--one-half">
-              <label for="CartSpecialInstructions" class="label--block">{{ 'cart.general.note' | t }}</label>
-              <textarea name="note" id="CartSpecialInstructions" class="input--block cart__note">{{ cart.note }}</textarea>
-            </div>
-            <div class="grid__item text-center large-up--one-half large-up--text-right">
 
               {%- if cart.cart_level_discount_applications != blank -%}
                 <div class="order-discount-cart-wrapper">
@@ -140,11 +151,6 @@
                   {%- endfor -%}
                 </div>
               {%- endif -%}
-
-              <p>
-                <span class="cart__subtotal-title h3">{{ 'cart.general.subtotal' | t }}</span>
-                <span class="cart__subtotal h3">{{ cart.total_price | money }}</span>
-              </p>
 
               {%- capture taxes_shipping_checkout -%}
                 {%- if shop.taxes_included and shop.shipping_policy.body != blank -%}
@@ -158,16 +164,11 @@
                 {%- endif -%}
               {%- endcapture -%}
 
-              <p class="cart__policies txt--emphasis rte">{{ taxes_shipping_checkout }}</p>
-              <p>
-                <button type="submit" name="update" class="btn btn--secondary update-cart">
-                  {% include 'icon-update' %}
+              <p class="pull-right">
+                <button type="submit" name="update" class="btn btn--secondary update-cart update">Update
                   <span class="icon__fallback-text">{{ 'cart.general.update' | t }}</span>
                 </button>
-                <a class="btn btn--secondary" href="{{ routes.all_products_collection_url }}">{{ 'cart.general.continue_shopping' | t }}</a>
-              </p>
-              <p>
-                <button type="submit" name="checkout" class="btn">{{ 'cart.general.checkout' | t }}</button>
+                <button type="submit" name="checkout" class="btn btn--secondary">{{ 'cart.general.checkout' | t }}</button>
               </p>
             </div>
           </div>
