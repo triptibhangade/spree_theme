@@ -79,12 +79,15 @@
       <div class="product-single__meta small--text-center">
         <h1 class="product-single__title" itemprop="name">{{ product.title }}</h1>
         &nbsp
+        
+        {% if product.description.size > 0 %}
           <div class="description">
             {% if section.settings.product_description_position == 'below' %}
               {%- assign position = 'below' -%}
               {% include 'product-description' %}
             {% endif %}
           </div>
+        {% endif %}
 
         {% if section.settings.vendor_show %}
           <p class="product-single__vendor" itemprop="brand">{{ product.vendor }}</p>
@@ -95,7 +98,6 @@
 
           <link itemprop="availability" href="http://schema.org/{% if current_variant.available %}InStock{% else %}OutOfStock{% endif %}">
           
-
           <h6>Price</h6>
           <p class="product-single__prices">
             {% if product.compare_at_price_max > product.price %}
